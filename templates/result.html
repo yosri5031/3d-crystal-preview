@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SKU Preview</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+<body>
+    <h1 class="title">3D Engraved Crystal Preview</h1> <br>
+    <a href="{{ url_for('static', filename=processed_image) }}" download>
+        <button style="margin-bottom: 5px;">Download Image</button>
+    </a> <br>
+        <img src="{{ url_for('static', filename=processed_image) }}" alt="Processed Image">
+        <p style="color:black;font-size: 12px;"> *The result in the image above is an approximation of reality and is the result of a programming code.</p>
+    <script>
+        var imgElement = document.querySelector('img');
+        var imageURL = imgElement.getAttribute('src');
+        imageURL = imageURL.replace(/\\/g, '/');
+        imgElement.setAttribute('src', imageURL);
+    </script>
+<!--
+    <script>
+     var vidElement = document.querySelector('vid');
+     var videoURL = vidElement.getAttribute('vid');
+     videoURL = videoURL.replace(/\\/g, '/');
+     vidElement.setAttribute('src', videoURL)
+    
+    </script> -->
+</body>
+</html>

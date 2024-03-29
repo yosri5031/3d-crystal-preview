@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ABCC Preview Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        #file-upload {
+            /* Hide the default button */
+            display: none;
+        }
+        
+        .title {
+            background-color: white;
+            border: 2px solid #454cad;
+            padding: 10px;
+            display: inline-block;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .upload-section {
+            display: flex;
+            align-items: center !important;
+        }
+        
+        .options {
+            margin-top: 20px;
+        }
+        
+        .options label {
+            display: flex;
+            align-items: center;
+        }
+        
+        .options input[type="radio"],
+        .options input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        input[type="text"] {
+        position: relative;
+        left: 36%;  
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 600px) {
+
+body {
+  font-size: 23px;
+}
+  .container {
+  width: 100%;
+}
+
+.box {
+  width: 100%; 
+}
+
+.upload-section {
+  width: 100%;
+}
+
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">
+          <img src="https://i.imgur.com/uEatP1p.png" width="250px" height="250px" alt="Logo">
+        </div>
+      </nav>
+    <div class="container">
+        <h1 class="title">ABCC Preview Web App</h1>
+        <div class="box">
+            <form id="file-upload-form" class="uploader" action="/" method="post" enctype="multipart/form-data">
+                <div class="upload-section">
+                    <input id="file-upload" type="file" name="image" accept="image/*" required>
+                    <label for="file-upload" id="file-drag">
+                        <img id="file-image" src="#" alt="Preview" class="hidden">
+
+                        <div id="start">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            <div>Select a file or drag here</div>
+                            <div id="notimage" class="hidden">Please select an image</div>
+                            <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+                        </div>
+                        <div id="response" class="hidden">
+                            <div id="messages"></div>
+                            <progress class="progress" id="file-progress" value="0">
+                                <span>0</span>%
+                            </progress>
+                        </div>
+                    </label>
+                </div>
+                <div class="upload-section" style="margin-top: 3px;width:50%;">
+                    <input type="text" name="text" placeholder="Enter text" style="align-items: center" length="14" required>
+                </div>
+                <div class="options">
+                    <b>Background Options</b>
+                    <br>
+                    <label for="background-toggle">
+                        <input type="checkbox" name="background" value="with" id="background-toggle">
+                        Display with Background
+                    </label>
+                </div>
+                <div class="options">
+                    <b>Led Options</b>
+                    <br>
+                    <label for="led-toggle">
+                        <input type="radio" name="led" value="with" id="background-toggle" checked>
+                        With Led Base
+                    </label>
+                    <!--<label for="led-toggle">
+                        <input type="radio" name="led" value="without" id="background-toggle">
+                        Without Led Base
+                    </label>-->
+                </div>
+                <div style="display:flex">
+                <div class="options" style="margin: right 20px;">
+                    <b>Shapes</b>
+                    <br>
+                    <label for="Rectangle">
+                        <input type="radio" name="shape" value="Rectangle" id="Rectangle" checked>
+                        Small Rectangle
+                    </label>
+                    <label for="MRectangle">
+                      <input type="radio" name="shape" value="MRectangle" id="MRectangle">
+                      Medium Rectangle
+                  </label>
+                  <label for="LRectangle">
+                    <input type="radio" name="shape" value="LRectangle" id="LRectangle">
+                    Large Rectangle
+                  </label>
+                  <label for="XLRectangle">
+                  <input type="radio" name="shape" value="XLRectangle" id="XLRectangle">
+                  XLarge Rectangle
+                 </label>
+                 <label for="XXLRectangle">
+                  <input type="radio" name="shape" value="XXLRectangle" id="XXLRectangle">
+                  XXLarge Rectangle
+                 </label>
+                 <label for="horizental">
+                        <input type="radio" name="shape" value="horizental" id="horizental">
+                        Horizental Rectangle
+                 </label>
+                 <label for="Diamond">
+                        <input type="radio" name="shape" value="Diamond" id="Diamond">
+                        Diamond
+                 </label>
+                 <label for="Iceberg">
+                        <input type="radio" name="shape" value="Iceberg" id="Iceberg">
+                        Iceberg
+                 </label>
+                 <label for="Round">
+                      <input type="radio" name="shape" value="Round" id="Round">
+                      Round
+                 </label>
+                 <label for="LRound">
+                    <input type="radio" name="shape" value="LRound" id="LRound">
+                    Large Round
+                 </label>
+                 <label for="SHeart">
+                  <input type="radio" name="shape" value="SHeart" id="SHeart">
+                  Small Heart
+               </label>
+               <label for="LHeart">
+                <input type="radio" name="shape" value="SHeart" id="LHeart">
+                Big Heart
+             </label>
+                </div>
+                <div class="options" style="margin: right 20px;">
+                    <b>Fonts</b>
+                    <br>
+                    <label for="Helvetica">
+                        <input type="radio" name="fonts" value="Helvetica" id="Helvetica">
+                        <span style="font-family: Helvetica;">Helvetica</span>
+                    </label>
+                    <label for="Arial">
+                        <input type="radio" name="fonts" value="Arial" id="Arial" checked>
+                        <span style="font-family: Arial;"> Arial </span>
+                    </label>
+                    <label for="TNR">
+                        <input type="radio" name="fonts" value="TNR" id="TNR">
+                        <span style="font-family:Times;">Times New Roman </span>
+                    </label>
+                    <label for="Calibri">
+                        <input type="radio" name="fonts" value="Calibri" id="Calibri">
+                        <span style="font-family: Calibri;"> Calibri </span>
+                    </label>
+                    <label for="Cambria">
+                        <input type="radio" name="fonts" value="Cambria" style="font-family: Cambria;" id="Cambria">
+                        <span style="font-family: Cambria;"> Cambria </span>
+                    </label>
+                    <label for="Oswald">
+                      <input type="radio" name="fonts" value="Oswald" style="font-family: Oswald;" id="Oswald">
+                      <span style="font-family: Oswald"> Oswald </span>
+                  </label>
+                </div> 
+              </div>
+                <br>
+                <input type="submit" value="Process Image" style=" background-color: white;
+                border: 2px solid #454cad;">
+            </form>
+        </div>
+    </div>
+    <script>
+      // Resize Image
+      document.getElementById('file-upload').addEventListener('change', function (event) {
+        var file = event.target.files[0];
+        var imageType = /^image\//;
+
+        if (!file.type.match(imageType)) {
+            return;
+        }
+
+        var img = document.getElementById('file-image');
+        img.onload = function () {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            var maxDim = 300; // Maximum dimension for the resized image
+            var width = img.width;
+            var height = img.height;
+
+            if (width > height) {
+                if (width > maxDim) {
+                    height *= maxDim / width;
+                    width = maxDim;
+                }
+            } else {
+                if (height > maxDim) {
+                    width *= maxDim / height;
+                    height = maxDim;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+
+            var dataUrl = canvas.toDataURL('image/jpeg'); // Convert canvas to data URL with JPEG format
+
+            // Adding the resized image to the form data
+            var formData = new FormData();
+            formData.append('image', dataUrl);
+
+            // Submit the form with the resized image
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/');
+            xhr.send(formData);
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            img.src = e.target.result; // Display the selected image in the preview
+        }
+        reader.readAsDataURL(file);
+    });
+    </script>
+        <script>
+            // File Upload
+// 
+function ekUpload(){
+  function Init() {
+    
+
+    console.log("Upload Initialised");
+
+    var fileSelect    = document.getElementById('file-upload'),
+        fileDrag      = document.getElementById('file-drag'),
+        submitButton  = document.getElementById('submit-button');
+
+    fileSelect.addEventListener('change', fileSelectHandler, false);
+
+    // Is XHR2 available?
+    var xhr = new XMLHttpRequest();
+    if (xhr.upload) {
+      // File Drop
+      fileDrag.addEventListener('dragover', fileDragHover, false);
+      fileDrag.addEventListener('dragleave', fileDragHover, false);
+      fileDrag.addEventListener('drop', fileSelectHandler, false);
+    }
+  }
+
+  function fileDragHover(e) {
+    var fileDrag = document.getElementById('file-drag');
+
+    e.stopPropagation();
+    e.preventDefault();
+
+    fileDrag.className = (e.type === 'dragover' ? 'hover' : 'modal-body file-upload');
+  }
+
+  function fileSelectHandler(e) {
+    // Fetch FileList object
+    var files = e.target.files || e.dataTransfer.files;
+
+    // Cancel event and hover styling
+    fileDragHover(e);
+
+    // Process all File objects
+    for (var i = 0, f; f = files[i]; i++) {
+      parseFile(f);
+      uploadFile(f);
+    }
+  }
+
+  // Output
+  function output(msg) {
+    // Response
+    var m = document.getElementById('messages');
+    m.innerHTML = msg;
+  }
+
+  function parseFile(file) {
+
+    console.log(file.name);
+    output(
+      '<strong>' + encodeURI(file.name) + '</strong>'
+    );
+    
+    // var fileType = file.type;
+    // console.log(fileType);
+    var imageName = file.name;
+
+    var isGood = (/\.(?=gif|jpg|png|jpeg)/gi).test(imageName);
+    if (isGood) {
+      document.getElementById('start').classList.add("hidden");
+      document.getElementById('response').classList.remove("hidden");
+      document.getElementById('notimage').classList.add("hidden");
+      // Thumbnail Preview
+     
+      document.getElementById('file-image').classList.remove("hidden");
+      document.getElementById('file-image').src = URL.createObjectURL(file);
+    }
+    else {
+      document.getElementById('file-image').classList.add("hidden");
+      document.getElementById('notimage').classList.remove("hidden");
+      document.getElementById('start').classList.remove("hidden");
+      document.getElementById('response').classList.add("hidden");
+      document.getElementById("file-upload-form").reset();
+    }
+  }
+
+  function setProgressMaxValue(e) {
+    var pBar = document.getElementById('file-progress');
+
+    if (e.lengthComputable) {
+      pBar.max = e.total;
+    }
+  }
+
+  function updateFileProgress(e) {
+    var pBar = document.getElementById('file-progress');
+
+    if (e.lengthComputable) {
+      pBar.value = e.loaded;
+    }
+  }
+
+  function uploadFile(file) {
+
+    var xhr = new XMLHttpRequest(),
+      fileInput = document.getElementById('class-roster-file'),
+      pBar = document.getElementById('file-progress'),
+      fileSizeLimit = 1024; // In MB
+    if (xhr.upload) {
+      // Check if file is less than x MB
+      if (file.size <= fileSizeLimit * 1024 * 1024) {
+        // Progress bar
+        pBar.style.display = 'inline';
+        xhr.upload.addEventListener('loadstart', setProgressMaxValue, false);
+        xhr.upload.addEventListener('progress', updateFileProgress, false);
+
+        // File received / failed
+        xhr.onreadystatechange = function(e) {
+          if (xhr.readyState == 4) {
+            // Everything is good!
+
+            // progress.className = (xhr.status == 200 ? "success" : "failure");
+            // document.location.reload(true);
+          }
+        };
+
+        // Start upload
+        xhr.open('POST', document.getElementById('file-upload-form').action, true);
+        xhr.setRequestHeader('X-File-Name', file.name);
+        xhr.setRequestHeader('X-File-Size', file.size);
+        xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+        xhr.send(file);
+      } else {
+        output('Please upload a smaller file (< ' + fileSizeLimit + ' MB).');
+      }
+    }
+  }
+
+  // Check for the various File API support.
+  if (window.File && window.FileList && window.FileReader) {
+    Init();
+  } else {
+    document.getElementById('file-drag').style.display = 'none';
+  }
+}
+ekUpload();
+</script>
+    </body>
+</html>
