@@ -2,6 +2,6 @@ Flask==2.2.2
 numpy==1.23.5
 Pillow==9.4.0
 rembg==2.0.52
-torch --no-deps
-torchvision==0.16.1 --no-deps
-gunicorn==19.7.1 --no-deps
+torch 
+torchvision==0.16.1 
+gunicorn==19.7.1 
