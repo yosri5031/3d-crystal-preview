@@ -3,3 +3,5 @@ numpy==1.23.5
 Pillow==9.4.0
 rembg==2.0.52 
 gunicorn==19.7.1 
+torch 
+torchvision==0.16.1
