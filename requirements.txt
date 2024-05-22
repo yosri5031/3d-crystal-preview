@@ -2,7 +2,7 @@ Flask==2.2.2
 numpy==1.23.5
 Pillow==9.4.0
 rembg==2.0.52 
-werkzeug
+Werkzeug==2.2.2
 gunicorn==19.7.1 
 -f https://download.pytorch.org/whl/torch_stable.html
 torch==1.11.0+cpu 
