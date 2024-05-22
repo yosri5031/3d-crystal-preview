@@ -5,4 +5,4 @@ rembg==2.0.52
 gunicorn==19.7.1 
 -f https://download.pytorch.org/whl/torch_stable.html
 torch==1.11.0+cpu 
-torchvision==0.16.0+cpu
+torchvision
