@@ -346,7 +346,8 @@ def show_image(filename):
     result_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     return render_template('result.html', processed_image=filename)
 
-
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 
