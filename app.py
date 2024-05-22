@@ -347,8 +347,6 @@ def show_image(filename):
     return render_template('result.html', processed_image=filename)
 
 
-#add port
-if __name__ == '__main__':
-    app.run()
+
 
 
