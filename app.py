@@ -490,7 +490,7 @@ def led():
         textwidth += letter_spacing * (len(text) - 1)
 
 # Calculate the starting position for each character
-        x_start = (image.width - textwidth) / 1.74
+        x_start = (image.width - textwidth) / 1.70
         y = image.height - 239
 
 # Add the text with letter spacing
