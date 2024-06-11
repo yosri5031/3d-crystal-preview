@@ -408,7 +408,7 @@ def led():
         user_image_bw = Image.fromarray(user_image_bw.astype(np.uint8))
 
         # Minimize width of user image by 50%
-        new_width = int(new_w * 0.35)
+        new_width = int(new_w * 0.22)
         new_height = new_h
         user_image_minimize = user_image_bw.resize((new_width, new_height))
 
