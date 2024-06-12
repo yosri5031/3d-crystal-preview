@@ -107,8 +107,8 @@ def home():
             new_w = int(crystal_w * 0.2)
             new_h = int(crystal_h * 0.2)
         elif shape_option =="Iceberg" and led_option == "with":
-            new_w = int(crystal_w * 0.30)
-            new_h = int(crystal_h * 0.30)
+            new_w = int(crystal_w * 0.24)
+            new_h = int(crystal_h * 0.27)
         elif shape_option =="Iceberg" and led_option == "without":
             new_w = int(crystal_w * 0.26)
             new_h = int(crystal_h * 0.26)
@@ -123,19 +123,24 @@ def home():
             new_h = int(crystal_h * 0.33)
         elif shape_option == "LRound":
             new_w = int(crystal_w * 0.36)
-            new_h = int(crystal_h * 0.36)
+            new_h = int(crystal_h * 0.42)
         elif shape_option == "SHeart":
             new_w = int(crystal_w * 0.20)
-            new_h = int(crystal_h * 0.20)
-        
+            new_h = int(crystal_h * 0.17)
+        elif shape_option == "XLRectangle":
+            new_w = int(crystal_w * 0.5)
+            new_h = int(crystal_h * 0.5)
+        elif shape_option == "XXLRectangle":
+            new_w = int(crystal_w * 0.6)
+            new_h = int(crystal_h * 0.6)
         else:
             new_w = int(crystal_w * 0.4)
             new_h = int(crystal_h * 0.4)
         user_image_resize = user_image_gray.resize((new_w, new_h))
 
         # Apply blending to darken user image
-        blended_image = Image.new('L', user_image_resize.size, 75)  # Grayscale with intensity 125
-        user_image_blend = Image.blend(user_image_resize, blended_image, 0.35)
+        blended_image = Image.new('L', user_image_resize.size, 85)  # Grayscale with intensity 125
+        user_image_blend = Image.blend(user_image_resize, blended_image, 0.55)
 
         # Increase contrast of user image
         enhancer = ImageEnhance.Contrast(user_image_blend)
@@ -185,38 +190,38 @@ def home():
             x = int((crystal_w - new_width) / 2.25) # /3
             y = int((crystal_h - new_height) / 2.2) # /3
         elif shape_option =="Iceberg" and led_option == "with":
-            x = int((crystal_w - new_width) / 2.6) # /3
-            y = int((crystal_h - new_height) / 2.7) # /3
+            x = int((crystal_w - new_width) / 2.45) # /3
+            y = int((crystal_h - new_height) / 2.1) # /3
         elif shape_option == "Rectangle":
             x = int((crystal_w - new_width) / 2.5) # /3
-            y = int((crystal_h - new_height) / 1.8) # /3
+            y = int((crystal_h - new_height) / 1.9) # /3
         elif shape_option == "MRectangle":
             x = int((crystal_w - new_width) / 2.6) # /3
-            y = int((crystal_h - new_height) / 1.9) # /3
+            y = int((crystal_h - new_height) / 2.07) # /3
         elif shape_option == "LRectangle":
-            x = int((crystal_w - new_width) / 2.6) # /3
+            x = 178
             y = int((crystal_h - new_height) / 2.6) # /3
         elif shape_option == "XLRectangle":
-            x = int((crystal_w - new_width) / 2.65) # /3
+            x = 145
             y = int((crystal_h - new_height) / 2.6) # /3
+        elif shape_option == "XXLRectangle":
+            x = 115
+            y = 47
         elif shape_option == "horizental" and led_option == "without":
             x = int((crystal_w - new_width) / 2.8) # /3
             y = int((crystal_h - new_height) / 3) # /3 
-        elif shape_option == "Iceberg" and led_option == "without":
-             x = int((crystal_w - new_width) / 2.6) # /3
-             y = int((crystal_h - new_height) / 2.4) # /3 
         elif shape_option == "Round":
-            x = int((crystal_w - new_width) / 2.6) # /3
+            x = int((crystal_w - new_width) / 2.7) # /3
             y = int((crystal_h - new_height) / 2.35) # /3
         elif shape_option == "LRound":
             x = int((crystal_w - new_width) / 2.65) # /3
-            y = int((crystal_h - new_height) / 3) # /3
+            y = int((crystal_h - new_height) / 3.65) # /3
         elif shape_option == "SHeart":
-            x = int((crystal_w - new_width) / 2.23) # /3
-            y = int((crystal_h - new_height) / 1.65) # /3
+            x = int((crystal_w - new_width) / 2.28) # /3
+            y = int((crystal_h - new_height) / 1.75) # /3
         else:
             x = int((crystal_w - new_width) / 2.8) # /3
-            y = int((crystal_h - new_height) / 3) # /3
+            y = int((crystal_h - new_height) / 3.2) # /3
 
         # Paste the removed background image into the crystal image
         if background_option == 'with':
@@ -283,7 +288,7 @@ def home():
         elif shape_option == "Round":
             x = (image.width - textwidth) / 2
         elif shape_option == "LRound":
-            x = (image.width - textwidth) / 2.1
+            x = (image.width - textwidth) / 2
         elif shape_option == "SHeart":
             x = (image.width - textwidth) / 2
         else:
@@ -293,21 +298,21 @@ def home():
         elif shape_option == "LRectangle": 
             y = image.height - 205
         elif shape_option == "XLRectangle": 
-            y = image.height - 225
+            y = image.height - 192
         elif shape_option == "XXLRectangle": 
-            y = image.height - 245
+            y = image.height - 198
         elif shape_option == "LRound": 
-            y = image.height - 278
+            y = image.height - 262
         elif shape_option == "Rectangle":
             y = image.height - 200
         elif shape_option == "horizental":
             y = image.height - 190
         elif shape_option == "Diamond":
-            y = image.height - 280
+            y = image.height - 265
         elif shape_option =="Iceberg" and led_option == "with":
-            y = image.height - 285  
+            y = image.height - 205  
         elif shape_option == "Round":
-            y = image.height - 225
+            y = image.height - 205
         elif shape_option == "SHeart":
             y = image.height - 210
         else:
@@ -509,19 +514,7 @@ def led():
 
     return render_template('index1.html')
 
-# fake instruction
 
-# saved_filename = 'saved_result33.png'
-
-# full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
-
-# image.save(full_path)
-
-#redirect to the result page with the processed image filename
-
-#return redirect(url_for('show_image' , filename=saved_filename))
-
-#return render_template('index.html')
 
 @app.route('/show_image/<filename>')  # New route for accessing image path in template
 def show_image(filename):
@@ -530,3 +523,28 @@ def show_image(filename):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+#from PIL import Image, ImageDraw, ImageFont
+#im = Image.new("RGB", (1600, 500), "black")
+#font_file = "Tests/fonts/FreeMono.ttf"
+#text_var = ImageDraw.Draw(im)
+
+#color_var = (255, 255, 255)
+#tuple_var = (200, 400)_
+#string_var = "Today's date: 11/06/2024"
+#saved_filename = 'saved_result33.png'
+#full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
+#image.save(full_path)
+#redirect to the result page with the processed image filename
+#return redirect(url_for('show_image', filename=saved_filename))
+#return render_template('index.html')
+#font_var = ImageFont.truetype(font_file, 70)
+#gap = 5
+
+#for char in string_var:
+#	text_var.text(tuple_var, char, color_var, font = font_var, align = 'center')
+#	width = text_var.textsize(char, font = font_var)[0] + gap
+#	tuple_var = (tuple_var[0]+width, tuple_var[1])
+
+#im.save("out.png")
