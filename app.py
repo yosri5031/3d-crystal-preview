@@ -139,7 +139,7 @@ def home():
         user_image_resize = user_image_gray.resize((new_w, new_h))
 
         # Apply blending to darken user image
-        blended_image = Image.new('L', user_image_resize.size, 85)  # Grayscale with intensity 125
+        blended_image = Image.new('L', user_image_resize.size, 130)  # Grayscale with intensity 125
         user_image_blend = Image.blend(user_image_resize, blended_image, 0.55)
 
         # Increase contrast of user image
