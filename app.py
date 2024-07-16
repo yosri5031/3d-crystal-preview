@@ -108,7 +108,7 @@ def home():
             new_h = int(crystal_h * 0.2)
         elif shape_option =="Iceberg" and led_option == "with":
             new_w = int(crystal_w * 0.24)
-            new_h = int(crystal_h * 0.27)
+            new_h = int(crystal_h * 0.37)
         elif shape_option =="Iceberg" and led_option == "without":
             new_w = int(crystal_w * 0.26)
             new_h = int(crystal_h * 0.26)
