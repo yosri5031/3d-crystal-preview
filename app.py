@@ -118,6 +118,9 @@ def home():
         elif shape_option == "Rectangle":
             new_w = int(crystal_w * 0.31)
             new_h = int(crystal_h * 0.31)
+        elif shape_option == "LRectangle":
+            new_w = int(crystal_w * 0.34)
+            new_h = int(crystal_h * 0.34)
         elif shape_option == "MRectangle":
             new_w = int(crystal_w * 0.33)
             new_h = int(crystal_h * 0.33)
@@ -128,11 +131,11 @@ def home():
             new_w = int(crystal_w * 0.20)
             new_h = int(crystal_h * 0.17)
         elif shape_option == "XLRectangle":
-            new_w = int(crystal_w * 0.5)
-            new_h = int(crystal_h * 0.5)
+            new_w = int(crystal_w * 0.36)
+            new_h = int(crystal_h * 0.36)
         elif shape_option == "XXLRectangle":
-            new_w = int(crystal_w * 0.6)
-            new_h = int(crystal_h * 0.6)
+            new_w = int(crystal_w * 0.46)
+            new_h = int(crystal_h * 0.46)
         else:
             new_w = int(crystal_w * 0.4)
             new_h = int(crystal_h * 0.4)
