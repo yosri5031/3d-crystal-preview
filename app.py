@@ -202,7 +202,7 @@ def home():
             x = int((crystal_w - new_width) / 2.6) # /3
             y = int((crystal_h - new_height) / 2.07) # /3
         elif shape_option == "LRectangle":
-            x = 178
+            x = 168
             y = int((crystal_h - new_height) / 2.45) # /3
         elif shape_option == "XLRectangle":
             x = 165
