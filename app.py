@@ -205,11 +205,11 @@ def home():
             x = 178
             y = int((crystal_h - new_height) / 2.45) # /3
         elif shape_option == "XLRectangle":
-            x = 145
+            x = 174
             y = int((crystal_h - new_height) / 2.45) # /3
         elif shape_option == "XXLRectangle":
-            x = 115
-            y = 58
+            x = 133
+            y = 74
         elif shape_option == "horizental" and led_option == "without":
             x = int((crystal_w - new_width) / 2.8) # /3
             y = int((crystal_h - new_height) / 3) # /3 
