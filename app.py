@@ -60,19 +60,19 @@ def home():
         if shape_option == "Rectangle" and led_option == "without": 
             crystal = Image.open("ImageLoader_without_led.png")
         elif shape_option == "Rectangle" and led_option == "with": 
-            crystal = Image.open("Small.jpg")
+            crystal = Image.open("Small.png")
         elif shape_option == "MRectangle" and led_option == "with": 
-            crystal = Image.open("Meduim.jpg")   
+            crystal = Image.open("Meduim.png")   
         elif shape_option == "LRectangle" and led_option == "with": 
-            crystal = Image.open("Large.jpg") 
+            crystal = Image.open("Large.png") 
         elif shape_option == "XLRectangle" and led_option == "with": 
-            crystal = Image.open("XL-1.jpg")
+            crystal = Image.open("XL-1.png")
         elif shape_option == "XXLRectangle" and led_option == "with": 
-            crystal = Image.open("XXL.jpg")
+            crystal = Image.open("XXL.png")
         elif shape_option == "SHeart" and led_option == "with": 
-            crystal = Image.open("SHeart.jpg")
+            crystal = Image.open("SHeart.png")
         elif shape_option == "LHeart" and led_option == "with": 
-            crystal = Image.open("LHeart.jpg")
+            crystal = Image.open("LHeart.png")
         elif shape_option == "horizental" and led_option == "with":
             crystal = Image.open("horizental_with_led.png")
         elif shape_option == "horizental" and led_option == "without":
@@ -80,11 +80,11 @@ def home():
         elif shape_option == "Diamond" and led_option == "without":
             crystal = Image.open("Diamond_Without_Led.jpg")
         elif shape_option == "Diamond" and led_option == "with":
-            crystal = Image.open("Diamond-1.jpg")
+            crystal = Image.open("Diamond-1.png")
         elif shape_option == "Round" and led_option == "with":
-            crystal = Image.open("round-1.jpg")
+            crystal = Image.open("round-1.png")
         elif shape_option == "LRound" and led_option == "with":
-            crystal = Image.open("Lround.jpg")
+            crystal = Image.open("Lround.png")
         elif shape_option == "Iceberg" and led_option == "without":
             crystal = Image.open("iceberg_without_led.jpg")
         else:
@@ -203,13 +203,13 @@ def home():
             y = int((crystal_h - new_height) / 2.07) # /3
         elif shape_option == "LRectangle":
             x = 178
-            y = int((crystal_h - new_height) / 2.6) # /3
+            y = int((crystal_h - new_height) / 2.45) # /3
         elif shape_option == "XLRectangle":
             x = 145
-            y = int((crystal_h - new_height) / 2.6) # /3
+            y = int((crystal_h - new_height) / 2.45) # /3
         elif shape_option == "XXLRectangle":
             x = 115
-            y = 47
+            y = 58
         elif shape_option == "horizental" and led_option == "without":
             x = int((crystal_w - new_width) / 2.8) # /3
             y = int((crystal_h - new_height) / 3) # /3 
