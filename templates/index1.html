@@ -81,9 +81,9 @@ body {
         </div>
       </nav>
     <div class="container">
-        <h1 class="title">ABCC Preview Web App</h1>
+        <h1 class="title">Branded LED Preview Web App</h1>
         <div class="box">
-            <form id="file-upload-form" class="uploader" action="/" method="post" enctype="multipart/form-data">
+            <form id="file-upload-form" class="uploader" action="/LED" method="post" enctype="multipart/form-data">
                 <div class="upload-section">
                     <input id="file-upload" type="file" name="image" accept="image/*" required>
                     <label for="file-upload" id="file-drag">
@@ -103,82 +103,12 @@ body {
                         </div>
                     </label>
                 </div>
-                <div class="upload-section" style="margin-top: 3px;width:50%;">
+                <div class="upload-section" style="margin-top: 3px;width:50%;margin-right: auto;margin-left: auto;">
                     <input type="text" name="text" placeholder="Enter text" style="align-items: center" length="14" required>
                 </div>
-                <div class="options">
-                    <b>Background Options</b>
-                    <br>
-                    <label for="background-toggle">
-                        <input type="checkbox" name="background" value="with" id="background-toggle">
-                        Display with Background
-                    </label>
-                </div>
-                <div class="options">
-                    <b>Led Options</b>
-                    <br>
-                    <label for="led-toggle">
-                        <input type="radio" name="led" value="with" id="background-toggle" checked>
-                        With Led Base
-                    </label>
-                    <!--<label for="led-toggle">
-                        <input type="radio" name="led" value="without" id="background-toggle">
-                        Without Led Base
-                    </label>-->
-                </div>
+                
                 <div style="display:flex">
-                <div class="options" style="margin: right 20px;">
-                    <b>Shapes</b>
-                    <br>
-                    <label for="Rectangle">
-                        <input type="radio" name="shape" value="Rectangle" id="Rectangle" checked>
-                        Small Rectangle
-                    </label>
-                    <label for="MRectangle">
-                      <input type="radio" name="shape" value="MRectangle" id="MRectangle">
-                      Medium Rectangle
-                  </label>
-                  <label for="LRectangle">
-                    <input type="radio" name="shape" value="LRectangle" id="LRectangle">
-                    Large Rectangle
-                  </label>
-                  <label for="XLRectangle">
-                  <input type="radio" name="shape" value="XLRectangle" id="XLRectangle">
-                  XLarge Rectangle
-                 </label>
-                 <label for="XXLRectangle">
-                  <input type="radio" name="shape" value="XXLRectangle" id="XXLRectangle">
-                  XXLarge Rectangle
-                 </label>
-                 <label for="horizental">
-                        <input type="radio" name="shape" value="horizental" id="horizental">
-                        Horizental Rectangle
-                 </label>
-                 <label for="Diamond">
-                        <input type="radio" name="shape" value="Diamond" id="Diamond">
-                        Diamond
-                 </label>
-                 <label for="Iceberg">
-                        <input type="radio" name="shape" value="Iceberg" id="Iceberg">
-                        Iceberg
-                 </label>
-                 <label for="Round">
-                      <input type="radio" name="shape" value="Round" id="Round">
-                      Round
-                 </label>
-                 <label for="LRound">
-                    <input type="radio" name="shape" value="LRound" id="LRound">
-                    Large Round
-                 </label>
-                 <label for="SHeart">
-                  <input type="radio" name="shape" value="SHeart" id="SHeart">
-                  Small Heart
-               </label>
-               <label for="LHeart">
-                <input type="radio" name="shape" value="SHeart" id="LHeart">
-                Big Heart
-             </label>
-                </div>
+                
                 <div class="options" style="margin: right 20px;">
                     <b>Fonts</b>
                     <br>
