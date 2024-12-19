@@ -374,15 +374,29 @@ def led():
                 # Calculate text position
                 x_start = (crystal_w - textwidth) / 2
                 y = crystal_h - 280
-
+                
                 # Draw complete text on transparent layer
-                txt_draw.text((x_start, y), text, font=font, fill='#3e2614', spacing=letter_spacing)
+                txt_draw.text((x_start, y), text, font=font, fill='#664223', spacing=letter_spacing)
 
-                # Rotate the entire text layer slightly
-                rotated_text = txt_img.rotate(-3, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
+                # Calculate the center point for the rotation
+                center = (crystal_w/2, y + textheight/2)
+
+                # Calculate the vertical midpoint of the text
+                midpoint = y + textheight/2
+
+                # Rotate the top half of the text downwards
+                rotated_text_top = txt_img.crop((0, 0, txt_img.width, midpoint)).rotate(3, expand=False, center=center, resample=Image.BICUBIC)
+
+                # Rotate the bottom half of the text upwards
+                rotated_text_bottom = txt_img.crop((0, midpoint, txt_img.width, txt_img.height)).rotate(-3, expand=False, center=center, resample=Image.BICUBIC)
+
+                # Create a new image and paste the rotated top and bottom halves
+                final_rotated_text = Image.new('RGBA', (txt_img.width, txt_img.height))
+                final_rotated_text.paste(rotated_text_top, (0, 0))
+                final_rotated_text.paste(rotated_text_bottom, (0, midpoint))
 
                 # Composite the rotated text with the background
-                final_image = Image.alpha_composite(led, rotated_text)
+                final_image = Image.alpha_composite(led, final_rotated_text)
 
                 # Save the final image
                 saved_filename = f'led_text_{uuid.uuid4()}.png'
