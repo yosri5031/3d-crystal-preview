@@ -335,20 +335,23 @@ def home():
     return render_template('index.html')
 
 
-from PIL import Image, ImageDraw, ImageFont
-import os
-from flask import request, redirect, url_for, render_template
-import uuid
-
 @app.route("/LED", methods=["GET", "POST"])
 def led():
-    if request.method == "POST":
-        try:
-            # Get form inputs
-            text = request.form["text"]
-            font_option = request.form.get("fonts", "Helvetica")
+if request.method == "POST":
+try:
+# Get form inputs
+text = request.form["text"]
+fonts_option = request.form.get("fonts")
 
-            background_image_path = "LED.jpeg"
+pgsql
+
+Copier
+        # Load the LED background image
+        with Image.open("LED.jpeg") as led:
+            led = led.convert('RGBA')  # Convert to RGBA right away
+            crystal_w, crystal_h = led.size
+
+            # Configure text settings
             font_mapping = {
                 "Helvetica": 'Helvetica.ttf',
                 "Arial": 'arial.ttf',
@@ -357,40 +360,45 @@ def led():
                 "Cambria": 'Cambria.ttf',
                 "Oswald": "Oswald-Regular.ttf"
             }
-            font_path = font_mapping.get(font_option, 'font.ttf')
+            fonttext = font_mapping.get(fonts_option, 'font.ttf')
 
-            with Image.open(background_image_path) as background_image:
-                font = ImageFont.truetype(font_path, 78)
-                draw = ImageDraw.Draw(background_image)
+            # Create text on image
+            font = ImageFont.truetype(fonttext, 78)
+            
+            # Create a smaller transparent layer for the text
+            txt_img = Image.new('RGBA', led.size, (255, 255, 255, 0))
+            txt_draw = ImageDraw.Draw(txt_img)
 
-                letter_spacing = 4
-                text_width, text_height = draw.textsize(text, font)
-                text_width += letter_spacing * (len(text) - 1)
-                 # Calculate text position
-                x_start = (crystal_w - textwidth) / 2
-                y = crystal_h - 280
+            # Set letter spacing and calculate text dimensions
+            letter_spacing = 4
+            textwidth, textheight = txt_draw.textsize(text, font)
+            textwidth += letter_spacing * (len(text) - 1)
+
+            # Calculate text position
+            x_start = (crystal_w - textwidth) / 2
+            y = crystal_h - 280
 
             # Draw complete text on transparent layer
-                txt_draw.text((x_start, y), text, font=font, fill='#664223', spacing=letter_spacing)
+            txt_draw.text((x_start, y), text, font=font, fill='#50311a', spacing=letter_spacing)
 
             # Rotate the entire text layer slightly
-                rotated_text = txt_img.rotate(-0.5, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
+            rotated_text = txt_img.rotate(-0.5, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
 
             # Composite the rotated text with the background
-                final_image = Image.alpha_composite(led, rotated_text)
+            final_image = Image.alpha_composite(led, rotated_text)
 
             # Save the final image
-                saved_filename = f'led_text_{uuid.uuid4()}.png'
-                full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
-                final_image.save(full_path, optimize=True)
+            saved_filename = f'led_text_{uuid.uuid4()}.png'
+            full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
+            final_image.save(full_path, optimize=True)
 
-                return redirect(url_for('show_image', filename=saved_filename))
+            return redirect(url_for('show_image', filename=saved_filename))
 
-        except Exception as e:
-            app.logger.error(f"Error processing image: {str(e)}")
-            return "An error occurred while processing the image. Please check the logs for more details.", 500
+    except Exception as e:
+        print(f"Error processing image: {str(e)}")
+        return "An error occurred while processing the image", 500
 
-    return render_template('index1.html')
+return render_template('index1.html')"
 @app.route('/show_image/<filename>')  # New route for accessing image path in template
 def show_image(filename):
     result_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
