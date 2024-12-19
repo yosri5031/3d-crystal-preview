@@ -337,182 +337,54 @@ def home():
 @app.route("/LED", methods=["GET", "POST"])
 def led():
     if request.method == "POST":
-
-        # Get the uploaded image file
-        image_file = request.files["image"]
+        # Get form inputs
+        text = request.form["text"]
         fonts_option = request.form.get("fonts")
-        crystal = Image.open("LED.jpeg") 
 
-        # Generate a unique filename for the uploaded image
-        filename = str(uuid.uuid4()) + ".png"
-        image_path = os.path.join(
-            app.config["UPLOAD_FOLDER"], filename
-        )
-        image_file.save(image_path)
-        def resize_and_convert(image, max_width, max_height):
-            width, height = image.size
-
-            # Calculate the ratios of the dimensions
-            ratio_w = float(max_width) / width
-            ratio_h = float(max_height) / height  
-
-            # Use the smaller ratio to resize the image
-            ratio = min(ratio_w, ratio_h)
-
-            new_width = int(max_width)
-            new_height = int(max_height)
-
-            # Resize the image
-            resized_image = image.resize((new_width, new_height), Image.BICUBIC)
-            if image.mode != 'RGB':
-                image = image.convert('RGB')
-            return image
-        #reseize image
-        img_r = Image.open(image_path)
-        img_r = resize_and_convert(img_r, 50,50)
-
-        # Get the user input text
-        text = request.form["text"]
-
-        # Open the crystal image
-        
+        # Load the LED background image
         led = Image.open("LED.jpeg")
-        
-
-
-        # Open the user image
-        #user_image = Image.open(image_path)
-        #user_image = user_image.resize((285, 193), Image.LANCZOS)
-        #user_image.save("resized_image.png")
-
-        # ... (continue integrating your existing image processing code)
-        
-        # Convert user image to grayscale
-        user_image_gray = img_r.convert('L')
-
-        # Resize user image to 20% of crystal size (LED in this case)
         crystal_w, crystal_h = led.size
-        new_w = int(crystal_w * 0.25)
-        new_h = int(crystal_h * 0.25)
-        user_image_resize = user_image_gray.resize((new_w, new_h))
 
-        # Apply blending to darken user image
-        blended_image = Image.new('L', user_image_resize.size, 256)  # Grayscale with intensity 125
-        user_image_blend = Image.blend(user_image_resize, blended_image, 0.35)
-
-        # Increase contrast of user image
-        enhancer = ImageEnhance.Contrast(user_image_blend)
-        user_image_contrast = enhancer.enhance(1.5)
-
-        # Convert user image back to 
-        user_image_rgb = user_image_contrast.convert('RGB')
-        user_image_array = np.asarray(user_image_rgb)  # Convert to NumPy array
-
-        threshold = 245
-
-        user_image_bw = np.where(user_image_array < threshold, 0, 255)  # Element-wise comparison
-
-        # Convert back to Pillow Image if needed
-        user_image_bw = Image.fromarray(user_image_bw.astype(np.uint8))
-
-        # Minimize width of user image by 50%
-        new_width = int(new_w * 0.22)
-        new_height = new_h
-        user_image_minimize = user_image_bw.resize((new_width, new_height))
-
-        # Load the pre-trained U-Net model
-        model = deeplabv3_resnet50(pretrained=True, progress=True)
-
-        # Preprocess the user image
-        preprocess = transforms.Compose([
-            transforms.ToTensor()  # Convert image to tensor
-        ])
-        input_tensor = preprocess(user_image_minimize)
-
-        # Set the model to evaluation mode
-        model.eval()
-
-        # Make predictions with U-Net
-        with torch.no_grad():
-            output = model(input_tensor.unsqueeze(0))['out']
-            predictions = output.argmax(1)
-
-        # Convert the resulting mask to a binary mask
-        mask = predictions.squeeze().byte()
-
-        # Convert mask to numpy array
-        mask_np = np.array(mask)
-
-        # Convert mask to alpha channel format (0s and 255s)
-        alpha = np.where(mask_np == 0, 0, 255).astype(np.uint8)
-
-        # Create a new image with alpha channel
-        removed_background = remove(user_image_contrast)
-
-
-        # Position the user image inside the crystal image
-
-        
-        x = int((crystal_w - new_width) / 3.3) # /3
-        y = int((crystal_h - new_height) / 1.64) # /3
-        
-
-       #PASTE LOGO WITHOUT BG
-        led.paste(user_image_bw, (x, y), removed_background)
-
-        # Save the final result
-        led.save('result1.png')
-
-# Ouvrir l'image finale
-        image = Image.open('result1.png')
-
-# Configurer le texte
-        text = request.form["text"]
-        if fonts_option=="Helvetica":
-            fonttext='Helvetica.ttf'
-        elif fonts_option=="Arial":
-            fonttext='arial.ttf'
-        elif fonts_option=="TNR":
-            fonttext='times.ttf'
-        elif fonts_option=="Calibri":
-            fonttext='CALIBRI.ttf'
-        elif fonts_option=="Cambria":
-            fonttext='Cambria.ttf'
-        elif fonts_option=="Oswald":
-            fonttext="Oswald-Regular.ttf"
+        # Configure text settings
+        if fonts_option == "Helvetica":
+            fonttext = 'Helvetica.ttf'
+        elif fonts_option == "Arial":
+            fonttext = 'arial.ttf'
+        elif fonts_option == "TNR":
+            fonttext = 'times.ttf'
+        elif fonts_option == "Calibri":
+            fonttext = 'CALIBRI.ttf'
+        elif fonts_option == "Cambria":
+            fonttext = 'Cambria.ttf'
+        elif fonts_option == "Oswald":
+            fonttext = "Oswald-Regular.ttf"
         else:
-            fonttext='font.ttf'
+            fonttext = 'font.ttf'
 
-        #font size
+        # Create text on image
         font = ImageFont.truetype(fonttext, 25)
-        fill = (0, 0, 0)
+        draw = ImageDraw.Draw(led)
 
-# Créer un objet Drawing
-        draw = ImageDraw.Draw(image)
-
-# Set the letter spacing value
-        letter_spacing = 4  # Adjust this value as needed
-
-# Calculate the size of the text with letter spacing
+        # Set letter spacing and calculate text dimensions
+        letter_spacing = 4
         textwidth, textheight = draw.textsize(text, font)
         textwidth += letter_spacing * (len(text) - 1)
 
-# Calculate the starting position for each character
-        x_start = (image.width - textwidth) / 1.70
-        y = image.height - 239
+        # Calculate text position
+        x_start = (crystal_w - textwidth) / 1.70
+        y = crystal_h - 239
 
-# Add the text with letter spacing
+        # Draw text with letter spacing
         for char in text:
             char_width, _ = draw.textsize(char, font)
-            draw.text((x_start, y), char, font=font, fill=fill)
+            draw.text((x_start, y), char, font=font, fill=(0, 0, 0))
             x_start += char_width + letter_spacing
 
-# Enregistrer l'image finale
-        saved_filename = 'saved_result22.png'
+        # Save the final image
+        saved_filename = f'led_text_{uuid.uuid4()}.png'
         full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
-        image.save(full_path)
+        led.save(full_path)
 
-        # Redirect to the result page with the processed image filename
         return redirect(url_for('show_image', filename=saved_filename))
 
     return render_template('index1.html')
