@@ -373,7 +373,7 @@ def led():
 
         # Calculate text position
         x_start = (crystal_w - textwidth) / 2
-        y = crystal_h - 259
+        y = crystal_h - 273
 
         # Draw text with letter spacing
         for char in text:
