@@ -12,96 +12,151 @@
 
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
+            background-color: white;
+            padding: 40px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .title {
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             font-size: 2rem;
             padding: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #007bff;
+            margin: 10px auto 0;
+            border-radius: 2px;
         }
 
         .download-btn {
             background-color: #007bff;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 30px;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
-            margin: 15px 0;
-            transition: background-color 0.3s;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
         }
 
         .download-btn:hover {
             background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
         }
 
         .preview-image {
             max-width: 100%;
             height: auto;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
         .disclaimer {
-            color: black;
-            font-size: 12px;
-            margin-top: 15px;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
             padding: 0 20px;
-            line-height: 1.4;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 600px;
         }
 
         /* Responsive breakpoints */
         @media screen and (max-width: 768px) {
             body {
-                padding: 15px;
+                padding: 20px 15px;
+            }
+
+            .container {
+                padding: 30px 15px;
             }
 
             .title {
                 font-size: 1.5rem;
+                margin-bottom: 20px;
             }
 
             .download-btn {
-                padding: 8px 16px;
+                padding: 10px 25px;
+                font-size: 15px;
+            }
+
+            .preview-image {
+                margin: 20px 0;
             }
         }
 
         @media screen and (max-width: 480px) {
             body {
-                padding: 10px;
+                padding: 15px 10px;
+            }
+
+            .container {
+                padding: 20px 10px;
             }
 
             .title {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+            }
+
+            .download-btn {
+                padding: 8px 20px;
+                font-size: 14px;
             }
 
             .disclaimer {
-                font-size: 10px;
+                font-size: 12px;
+                padding: 0 15px;
             }
         }
     </style>
 </head>
 <body>
-    <h1 class="title">Product Preview</h1>
-    
-    <a href="{{ url_for('static', filename=processed_image) }}" download>
-        <button class="download-btn">Download Image</button>
-    </a>
-    
-    <img 
-        class="preview-image"
-        src="{{ url_for('static', filename=processed_image) }}" 
-        alt="Processed Image"
-    >
-    
-    <p class="disclaimer">
-        *The result in the image above is an approximation of reality and is the result of a programming code.
-    </p>
+    <div class="container">
+        <h1 class="title">Product Preview</h1>
+        
+        <a href="{{ url_for('static', filename=processed_image) }}" download>
+            <button class="download-btn">Download Image</button>
+        </a>
+        
+        <img 
+            class="preview-image"
+            src="{{ url_for('static', filename=processed_image) }}" 
+            alt="Processed Image"
+        >
+        
+        <p class="disclaimer">
+            *The result in the image above is an approximation of reality and is the result of a programming code.
+        </p>
+    </div>
 
     <script>
         var imgElement = document.querySelector('img');
