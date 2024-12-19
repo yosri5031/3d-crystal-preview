@@ -364,22 +364,31 @@ def led():
 
         # Create text on image
         font = ImageFont.truetype(fonttext, 78)
-        draw = ImageDraw.Draw(led)
+        
+        # Create a transparent layer for the text
+        txt_img = Image.new('RGBA', led.size, (255, 255, 255, 0))
+        txt_draw = ImageDraw.Draw(txt_img)
 
         # Set letter spacing and calculate text dimensions
         letter_spacing = 4
-        textwidth, textheight = draw.textsize(text, font)
+        textwidth, textheight = txt_draw.textsize(text, font)
         textwidth += letter_spacing * (len(text) - 1)
 
         # Calculate text position
         x_start = (crystal_w - textwidth) / 2
         y = crystal_h - 280
 
-        # Draw text with letter spacing
+        # Draw complete text on transparent layer
         for char in text:
-            char_width, _ = draw.textsize(char, font)
-            draw.text((x_start, y), char, font=font, fill=(0, 0, 0))
+            char_width, _ = txt_draw.textsize(char, font)
+            txt_draw.text((x_start, y), char, font=font, fill='#664223')
             x_start += char_width + letter_spacing
+
+        # Rotate the entire text layer slightly
+        rotated_text = txt_img.rotate(3, expand=False, center=(crystal_w/2, y + textheight/2))
+
+        # Composite the rotated text with the background
+        led = Image.alpha_composite(led.convert('RGBA'), rotated_text)
 
         # Save the final image
         saved_filename = f'led_text_{uuid.uuid4()}.png'
