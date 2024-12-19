@@ -366,21 +366,20 @@ def led():
                 letter_spacing = 4
                 text_width, text_height = draw.textsize(text, font)
                 text_width += letter_spacing * (len(text) - 1)
-                x_start = (background_image.width - text_width) // 2
-                y = background_image.height - 280
+                 # Calculate text position
+                x_start = (crystal_w - textwidth) / 2
+                y = crystal_h - 280
 
-                draw.text((x_start, y), text, font=font, fill='#664223', spacing=letter_spacing)
+            # Draw complete text on transparent layer
+                txt_draw.text((x_start, y), text, font=font, fill='#664223', spacing=letter_spacing)
 
-                center = (background_image.width // 2, y + text_height // 2)
-                midpoint = y + text_height // 2
+            # Rotate the entire text layer slightly
+                rotated_text = txt_img.rotate(-0.5, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
 
-                rotated_top = background_image.crop((0, 0, background_image.width, midpoint)).rotate(-3, center=center, resample=Image.BICUBIC)
-                rotated_bottom = background_image.crop((0, midpoint, background_image.width, background_image.height)).rotate(3, center=center, resample=Image.BICUBIC)
+            # Composite the rotated text with the background
+                final_image = Image.alpha_composite(led, rotated_text)
 
-                final_image = Image.new('RGBA', (background_image.width, background_image.height))
-                final_image.paste(rotated_top, (0, 0))
-                final_image.paste(rotated_bottom, (0, midpoint))
-
+            # Save the final image
                 saved_filename = f'led_text_{uuid.uuid4()}.png'
                 full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
                 final_image.save(full_path, optimize=True)
