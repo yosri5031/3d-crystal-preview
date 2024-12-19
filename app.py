@@ -338,64 +338,62 @@ def home():
 @app.route("/LED", methods=["GET", "POST"])
 def led():
     if request.method == "POST":
-        # Get form inputs
-        text = request.form["text"]
-        fonts_option = request.form.get("fonts")
+        try:
+            # Get form inputs
+            text = request.form["text"]
+            fonts_option = request.form.get("fonts")
 
-        # Load the LED background image
-        led = Image.open("LED.jpeg")
-        crystal_w, crystal_h = led.size
+            # Load the LED background image
+            with Image.open("LED.jpeg") as led:
+                led = led.convert('RGBA')  # Convert to RGBA right away
+                crystal_w, crystal_h = led.size
 
-        # Configure text settings
-        if fonts_option == "Helvetica":
-            fonttext = 'Helvetica.ttf'
-        elif fonts_option == "Arial":
-            fonttext = 'arial.ttf'
-        elif fonts_option == "TNR":
-            fonttext = 'times.ttf'
-        elif fonts_option == "Calibri":
-            fonttext = 'CALIBRI.ttf'
-        elif fonts_option == "Cambria":
-            fonttext = 'Cambria.ttf'
-        elif fonts_option == "Oswald":
-            fonttext = "Oswald-Regular.ttf"
-        else:
-            fonttext = 'font.ttf'
+                # Configure text settings
+                font_mapping = {
+                    "Helvetica": 'Helvetica.ttf',
+                    "Arial": 'arial.ttf',
+                    "TNR": 'times.ttf',
+                    "Calibri": 'CALIBRI.ttf',
+                    "Cambria": 'Cambria.ttf',
+                    "Oswald": "Oswald-Regular.ttf"
+                }
+                fonttext = font_mapping.get(fonts_option, 'font.ttf')
 
-        # Create text on image
-        font = ImageFont.truetype(fonttext, 78)
-        
-        # Create a transparent layer for the text
-        txt_img = Image.new('RGBA', led.size, (255, 255, 255, 0))
-        txt_draw = ImageDraw.Draw(txt_img)
+                # Create text on image
+                font = ImageFont.truetype(fonttext, 78)
+                
+                # Create a smaller transparent layer for the text
+                txt_img = Image.new('RGBA', led.size, (255, 255, 255, 0))
+                txt_draw = ImageDraw.Draw(txt_img)
 
-        # Set letter spacing and calculate text dimensions
-        letter_spacing = 4
-        textwidth, textheight = txt_draw.textsize(text, font)
-        textwidth += letter_spacing * (len(text) - 1)
+                # Set letter spacing and calculate text dimensions
+                letter_spacing = 4
+                textwidth, textheight = txt_draw.textsize(text, font)
+                textwidth += letter_spacing * (len(text) - 1)
 
-        # Calculate text position
-        x_start = (crystal_w - textwidth) / 2
-        y = crystal_h - 280
+                # Calculate text position
+                x_start = (crystal_w - textwidth) / 2
+                y = crystal_h - 280
 
-        # Draw complete text on transparent layer
-        for char in text:
-            char_width, _ = txt_draw.textsize(char, font)
-            txt_draw.text((x_start, y), char, font=font, fill='#664223')
-            x_start += char_width + letter_spacing
+                # Draw complete text on transparent layer
+                txt_draw.text((x_start, y), text, font=font, fill='#664223', spacing=letter_spacing)
 
-        # Rotate the entire text layer slightly
-        rotated_text = txt_img.rotate(3, expand=False, center=(crystal_w/2, y + textheight/2))
+                # Rotate the entire text layer slightly
+                rotated_text = txt_img.rotate(3, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
 
-        # Composite the rotated text with the background
-        led = Image.alpha_composite(led.convert('RGBA'), rotated_text)
+                # Composite the rotated text with the background
+                final_image = Image.alpha_composite(led, rotated_text)
 
-        # Save the final image
-        saved_filename = f'led_text_{uuid.uuid4()}.png'
-        full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
-        led.save(full_path)
+                # Save the final image
+                saved_filename = f'led_text_{uuid.uuid4()}.png'
+                full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
+                final_image.save(full_path, optimize=True)
 
-        return redirect(url_for('show_image', filename=saved_filename))
+                return redirect(url_for('show_image', filename=saved_filename))
+
+        except Exception as e:
+            print(f"Error processing image: {str(e)}")
+            return "An error occurred while processing the image", 500
 
     return render_template('index1.html')
 @app.route('/show_image/<filename>')  # New route for accessing image path in template
