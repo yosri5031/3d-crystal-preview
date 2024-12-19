@@ -375,30 +375,11 @@ def led():
         x_start = (crystal_w - textwidth) / 2
         y = crystal_h - 259
 
-        # Create a new transparent image for rotated text
-        txt_img = Image.new('RGBA', led.size, (255, 255, 255, 0))
-        txt_draw = ImageDraw.Draw(txt_img)
-
-        # Draw each character with alternating rotation
-        for i, char in enumerate(text):
+        # Draw text with letter spacing
+        for char in text:
             char_width, _ = draw.textsize(char, font)
-            
-            # Create temporary image for single character
-            char_img = Image.new('RGBA', led.size, (255, 255, 255, 0))
-            char_draw = ImageDraw.Draw(char_img)
-            char_draw.text((x_start, y), char, font=font, fill=(0, 0, 0))
-            
-            # Rotate character alternately left and right
-            rotation = 12 if i % 2 == 0 else -12
-            rotated_char = char_img.rotate(rotation, expand=True, center=(x_start + char_width/2, y + textheight/2))
-            
-            # Paste rotated character onto main image
-            txt_img = Image.alpha_composite(txt_img, rotated_char)
-            
+            draw.text((x_start, y), char, font=font, fill=(0, 0, 0))
             x_start += char_width + letter_spacing
-
-        # Composite the text image with the LED background
-        led = Image.alpha_composite(led.convert('RGBA'), txt_img)
 
         # Save the final image
         saved_filename = f'led_text_{uuid.uuid4()}.png'
@@ -408,7 +389,6 @@ def led():
         return redirect(url_for('show_image', filename=saved_filename))
 
     return render_template('index1.html')
-
 @app.route('/show_image/<filename>')  # New route for accessing image path in template
 def show_image(filename):
     result_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
