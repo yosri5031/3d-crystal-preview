@@ -363,7 +363,7 @@ def led():
             fonttext = 'font.ttf'
 
         # Create text on image
-        font = ImageFont.truetype(fonttext, 75)
+        font = ImageFont.truetype(fonttext, 78)
         draw = ImageDraw.Draw(led)
 
         # Set letter spacing and calculate text dimensions
@@ -373,7 +373,7 @@ def led():
 
         # Calculate text position
         x_start = (crystal_w - textwidth) / 2
-        y = crystal_h - 273
+        y = crystal_h - 280
 
         # Draw text with letter spacing
         for char in text:
