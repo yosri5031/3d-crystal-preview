@@ -379,7 +379,7 @@ def led():
                 txt_draw.text((x_start, y), text, font=font, fill='#50311a', spacing=letter_spacing)
 
                 # Rotate the entire text layer slightly
-                rotated_text = txt_img.rotate(-0.5, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
+                rotated_text = txt_img.rotate(-1.5, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
 
                 # Composite the rotated text with the background
                 final_image = Image.alpha_composite(led, rotated_text)
