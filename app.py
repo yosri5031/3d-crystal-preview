@@ -334,6 +334,7 @@ def home():
 
     return render_template('index.html')
 
+
 @app.route("/LED", methods=["GET", "POST"])
 def led():
     if request.method == "POST":
@@ -374,18 +375,20 @@ def led():
         x_start = (crystal_w - textwidth) / 2
         y = crystal_h - 259
 
-        # Draw text with letter spacing
+        # Draw text with skew angle
+        skew_angle = 12  # Adjust the skew angle as needed
         for char in text:
             char_width, _ = draw.textsize(char, font)
             draw.text((x_start, y), char, font=font, fill=(0, 0, 0))
             x_start += char_width + letter_spacing
+            font = ImageFont.TransposedFont(font, orientation=skew_angle)  # Apply skew angle
 
         # Save the final image
         saved_filename = f'led_text_{uuid.uuid4()}.png'
         full_path = os.path.join(app.config['UPLOAD_FOLDER'], saved_filename)
         led.save(full_path)
 
-        return redirect(url_for('show_image', filename=saved_filename))
+        return redirect(url_for('show_image', filename=saved_filename)
 
     return render_template('index1.html')
 
