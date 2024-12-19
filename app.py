@@ -376,10 +376,10 @@ def led():
                 y = crystal_h - 280
 
                 # Draw complete text on transparent layer
-                txt_draw.text((x_start, y), text, font=font, fill='#664223', spacing=letter_spacing)
+                txt_draw.text((x_start, y), text, font=font, fill='#3e2614', spacing=letter_spacing)
 
                 # Rotate the entire text layer slightly
-                rotated_text = txt_img.rotate(3, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
+                rotated_text = txt_img.rotate(-3, expand=False, center=(crystal_w/2, y + textheight/2), resample=Image.BICUBIC)
 
                 # Composite the rotated text with the background
                 final_image = Image.alpha_composite(led, rotated_text)
